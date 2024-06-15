@@ -14,6 +14,6 @@ Have fun!
 Moshix  
 June 2024, on UA47  
 
-![Actual game screenshot ](https://github.com/moshix/breakterm/blob/main/Screenshot%202024-06-15%20at%203.13.27%20PM.png)
+![Actual game screenshot ](https://github.com/moshix/breakterm/blob/main/Screenshot%202024-06-15%20at%2010.58.34%20PM.png)
 
 
