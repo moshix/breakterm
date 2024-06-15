@@ -15,6 +15,7 @@
 /*  v 0.9 fine tune game parameters (paddel movmt etc.)    */
 /*  v 0.9.1 some minor tweaks                              */
 /*  v 1.0  make sure all bricks are cleared before exiting */
+/*  v 1.1  make paddle a solid block !                     */
 
 
 #include <ncurses.h>
@@ -86,7 +87,7 @@ void init_game() {
     init_pair(6, COLOR_MAGENTA, COLOR_BLACK); // Bricks second row
     init_pair(7, COLOR_CYAN, COLOR_BLACK);    // Bricks third row
     init_pair(8, COLOR_YELLOW, COLOR_BLACK);  // Welcome message "BREAKTERM"
-    init_pair(9, COLOR_MAGENTA, COLOR_BLACK); // Welcome message "(2024)"
+    init_pair(9, COLOR_GREEN, COLOR_BLACK);   // Welcome message "(2024)"
     init_pair(10, COLOR_BLUE, COLOR_BLACK);   // Welcome message "by moshix"
 
     paddle_x = WINDOW_WIDTH / 2 - PADDLE_WIDTH / 2;
@@ -128,14 +129,14 @@ void clear_paddle() {
         mvprintw(WINDOW_HEIGHT - 2, paddle_x + i, " ");
     }
 }
-
 void draw_paddle() {
-    attron(COLOR_PAIR(3));
-    for (int i = 0; i < PADDLE_WIDTH; ++i) {
-        mvprintw(WINDOW_HEIGHT - 2, paddle_x + i, "=");
+    attron(COLOR_PAIR(3) | A_REVERSE);  // Use reverse video and yellow color
+    for (int i = 0; i < PADDLE_WIDTH; ++i) {  
+        mvprintw(WINDOW_HEIGHT - 2, paddle_x + i, " ");
     }
-    attroff(COLOR_PAIR(3));
-}
+    attroff(COLOR_PAIR(3) | A_REVERSE);
+}   
+
 
 void draw_bricks() {
     int start_x = (WINDOW_WIDTH - (NUM_BRICKS * (BRICK_WIDTH + 2) - 2)) / 2;
