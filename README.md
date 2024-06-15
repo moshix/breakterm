@@ -12,7 +12,7 @@ I also have a version in Go, but installing Go on z/OS USS is itself still quite
 Have fun!
 
 Moshix  
-June 2024, Frankfurt  
+June 2024, UA47  
 
 ![Actual game screenshot ](https://github.com/moshix/breakterm/blob/main/Screenshot%202024-06-15%20at%203.13.27%20PM.png)
 
