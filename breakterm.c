@@ -3,8 +3,6 @@
 /* This game was made specificaly to have a game on        */
 /*   z/OS Unix System Services (USS). It requires          */
 /*   libncurses to compile and run.                        */
-/* Copying, full or partial, or use only allowed wit       */
-/*  prior consent by the author                            */
 /*                                                         */
 /*  v 0.1 humble beginnings                                */
 /*  v 0.2 handle ball and paddle                           */
@@ -15,6 +13,7 @@
 /*  v 0.7 3 lives. that's it.                              */
 /*  v 0.8 bricks! and points!                              */
 /*  v 0.9 fine tune game parameters (paddel movmt etc.)    */
+/*  v 0.9.1 some minor tweaks                              */
 
 
 #include <ncurses.h>
@@ -28,12 +27,13 @@
 #define WINDOW_HEIGHT 20
 #define BRICK_WIDTH 5
 #define NUM_BRICKS ((WINDOW_WIDTH / (BRICK_WIDTH + 2) - 2))
+#define PACING 110000 // how many milliseconds to wait between updates - configure here!
 
 int paddle_x, paddle_dx = 0;
 int ball_x, ball_y;
 int ball_dx = 1, ball_dy = -1;
 int score = 0;
-int lives = 4;
+int lives = 3;
 int paddle_moved = 0;
 int game_paused = 0;
 
@@ -196,7 +196,7 @@ void check_ball_collision() {
     }
 }
 
-void move_ball() {
+void move_ball() {      
     if (game_paused) return;
 
     attron(COLOR_PAIR(4));
@@ -204,21 +204,20 @@ void move_ball() {
     ball_x += ball_dx;
     ball_y += ball_dy;
     check_ball_collision();
-
+    
     if (ball_y >= WINDOW_HEIGHT - 1) {
-        lives--;
+        lives--;    
         if (lives > 0) {
             clear();  // Clear the screen to remove stale outputs
             draw_borders();
             draw_score_and_lives();
             draw_paddle();
-            draw_bricks();  // Redraw the game state before displaying the message
-            
+            draw_bricks();
             attron(COLOR_PAIR(2));
             mvprintw(WINDOW_HEIGHT / 2, (WINDOW_WIDTH / 2) - 10, "You lost one life!");
             refresh();
             usleep(2000000);  // Display message for 2 seconds
-
+    
             clear();  // Clear the screen again to remove the message
             draw_borders();
             draw_score_and_lives();
@@ -226,14 +225,14 @@ void move_ball() {
             draw_bricks();  // Redraw the game state to continue play
             reset_ball();
             paddle_moved = 0;
-            attroff(COLOR_PAIR(2));
         } else {
-            flushinp();  // Remove any buffered key presses
+            game_paused = 1; // Pause the game to display the Game Over message
             clear();  // Clear the screen before displaying the game over message
             print_game_over();
-            getch();
+            refresh();
+            usleep(2000000);  // Pause to allow the player to see the Game Over message
             endwin();
-            exit(0);
+            exit(0);  // Exit the game after displaying the Game Over message
         }
     }
 
@@ -280,7 +279,7 @@ void game_loop() {
         draw_bricks();
         move_ball();
         refresh();
-        usleep(110000); // 100 milliseconds delay for game pacing
+        usleep(PACING); // 100 milliseconds delay for game pacing
     }
     endwin();
 }
