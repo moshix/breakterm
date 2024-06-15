@@ -2,8 +2,8 @@
 /* (c) 2024 by moshix                                      */
 /* This game was made specificaly to have a game on        */
 /*   z/OS Unix System Services (USS). It requires          */
-/*   libncurses to compile and run.                        */
-/*                                                         */
+/*   libncurses to compile and run. But it also builds and */
+/*   and runs on every other *NIX                          */
 /*  v 0.1 humble beginnings                                */
 /*  v 0.2 handle ball and paddle                           */
 /*  v 0.3 angle deflection                                 */
