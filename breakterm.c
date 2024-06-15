@@ -1,20 +1,20 @@
-/* breakterm, a terminal based breakout game          */
-/* (c) 2024 by moshix                                 */
-/* This game was made specificaly to have a game on   */
-/*   z/OS Unix System Services (USS). It requires     */
-/*   libncurses to compile and run.                   */
-/* Copying, full or partial, or use only allowed wit  */
-/*  prior consent by the author                       */
-/*                                                    */
-/*  v 0.1 humble beginnings                           */
-/*  v 0.2 handle ball and paddle                      */
-/*  v 0.3 angle deflection                            */
-/*  v 0.4 colors!                                     */
-/*  v 0.5 quittting logic                             */
-/*  v 0.6 Score keeping                               */
-/*  v 0.7 3 lives. that's it.                         */
-/*  v 0.8 bricks! and points!                         */
-/*                                                    */
+/* breakterm, a terminal based breakout game               */
+/* (c) 2024 by moshix                                      */
+/* This game was made specificaly to have a game on        */
+/*   z/OS Unix System Services (USS). It requires          */
+/*   libncurses to compile and run.                        */
+/* Copying, full or partial, or use only allowed wit       */
+/*  prior consent by the author                            */
+/*                                                         */
+/*  v 0.1 humble beginnings                                */
+/*  v 0.2 handle ball and paddle                           */
+/*  v 0.3 angle deflection                                 */
+/*  v 0.4 colors!                                          */
+/*  v 0.5 quittting logic                                  */
+/*  v 0.6 Score keeping                                    */
+/*  v 0.7 3 lives. that's it.                              */
+/*  v 0.8 bricks! and points!                              */
+/*  v 0.9 fine tune game parameters (paddel movmt etc.)    */
 
 
 #include <ncurses.h>
@@ -33,7 +33,7 @@ int paddle_x, paddle_dx = 0;
 int ball_x, ball_y;
 int ball_dx = 1, ball_dy = -1;
 int score = 0;
-int lives = 3;
+int lives = 4;
 int paddle_moved = 0;
 int game_paused = 0;
 
@@ -84,7 +84,7 @@ void init_game() {
     init_pair(6, COLOR_MAGENTA, COLOR_BLACK); // Bricks second row
     init_pair(7, COLOR_CYAN, COLOR_BLACK);    // Bricks third row
     init_pair(8, COLOR_YELLOW, COLOR_BLACK);  // Welcome message "BREAKTERM"
-    init_pair(9, COLOR_GREEN, COLOR_BLACK);   // Welcome message "(2024)"
+    init_pair(9, COLOR_MAGENTA, COLOR_BLACK); // Welcome message "(2024)"
     init_pair(10, COLOR_BLUE, COLOR_BLACK);   // Welcome message "by moshix"
 
     paddle_x = WINDOW_WIDTH / 2 - PADDLE_WIDTH / 2;
@@ -256,14 +256,14 @@ void game_loop() {
             switch (ch) {
                 case KEY_LEFT:
                     if (paddle_x > 1) {
-                        paddle_x -= 2;
+                        paddle_x -= 4; // how many asci move at the same time
                         paddle_dx = -1;
                         paddle_moved = 1;
                     }
                     break;
                 case KEY_RIGHT:
                     if (paddle_x < WINDOW_WIDTH - PADDLE_WIDTH - 1) {
-                        paddle_x += 2;
+                        paddle_x += 4; // how many asci move at the same time
                         paddle_dx = 1;
                         paddle_moved = 1;
                     }
@@ -280,7 +280,7 @@ void game_loop() {
         draw_bricks();
         move_ball();
         refresh();
-        usleep(100000); // 100 milliseconds delay for game pacing
+        usleep(110000); // 100 milliseconds delay for game pacing
     }
     endwin();
 }
@@ -326,7 +326,7 @@ void quit_game() {
         if (ch == 'Y' || ch == 'y') {
             clear();
             refresh();
-            usleep(2000000);  // 2 seconds pause
+            usleep(1200000);  // 2 seconds pause
             endwin();
             exit(0);
         } else if (ch == 'N' || ch == 'n') {
