@@ -1,5 +1,5 @@
-BREAK OUT for the USS terminal
-==============================
+BREAK OUT for the terminal (also in ssh or telnet)
+==================================================
 
 This is an ad-hoc implementation of the famous breakout game for the *NIX terminal. I wrote it so it would work also on z/OS USS specifically.
 
