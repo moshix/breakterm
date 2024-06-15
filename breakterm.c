@@ -14,6 +14,7 @@
 /*  v 0.8 bricks! and points!                              */
 /*  v 0.9 fine tune game parameters (paddel movmt etc.)    */
 /*  v 0.9.1 some minor tweaks                              */
+/*  v 1.0  make sure all bricks are cleared before exiting */
 
 
 #include <ncurses.h>
@@ -54,6 +55,7 @@ void print_game_over();
 void print_welcome_message();
 void quit_game();
 void handle_quit_signal(int sig);
+int are_all_bricks_cleared();
 
 int main() {
     signal(SIGINT, handle_quit_signal);  // Handle Ctrl-C
@@ -240,9 +242,34 @@ void move_ball() {
         }
     }
 
+
+        if (are_all_bricks_cleared()) {
+            game_paused = 1; // Pause the game to display the Game Over message
+            clear();  // Clear the screen before displaying the game over message
+            print_game_over();
+            refresh();
+            usleep(2000000);  // Pause to allow the player to see the Game Over message
+            endwin();
+            exit(0);  // Exit the game after displaying the Game Over message
+        }
+
+
+
     mvprintw(ball_y, ball_x, "O");
     attroff(COLOR_PAIR(4));
     refresh();  // Make sure all changes are shown on screen
+}
+
+
+int are_all_bricks_cleared() {
+    for (int row = 0; row < 3; row++) {
+        for (int col = 0; col < NUM_BRICKS; col++) {
+            if (bricks[row][col]) {
+                return 0;  // There are still some bricks left
+            }
+        }
+    }
+    return 1;  // All bricks are cleared
 }
 
 void game_loop() {
