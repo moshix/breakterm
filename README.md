@@ -12,4 +12,6 @@ June 2024, Frankfurt
 
 (c) by moshix 2024
 
+![Actual game screenshot ](https://github.com/moshix/breakterm/blob/main/Screenshot%202024-06-15%20at%203.13.27%20PM.png)
+
 
