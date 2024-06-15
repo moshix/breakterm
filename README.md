@@ -1,7 +1,7 @@
 BREAK OUT for the terminal (also in ssh or telnet)
 ==================================================
 
-This is an ad-hoc implementation of the famous breakout game for the *NIX terminal. I wrote it so it would work also on z/OS USS specifically.
+This is an ad-hoc implementation of the famous breakout game for the *NIX terminal. I wrote it so it would work also on z/OS USS. but it runs on every type of *NIX. 
 
 z/OS USS sports subtle differences from other, 'normal' *NIXES that make terminal stuff more challenging. This works on z/OS USS. 
 
