@@ -136,7 +136,6 @@ void draw_paddle() {
 }
 
 void draw_bricks() {
-    /* bricks are multicolored and 3 rows */
     int start_x = (WINDOW_WIDTH - (NUM_BRICKS * (BRICK_WIDTH + 2) - 2)) / 2;
     for (int row = 0; row < 3; row++) {
         for (int col = 0; col < NUM_BRICKS; col++) {
@@ -181,6 +180,11 @@ void check_ball_collision() {
                 if (ball_y == brick_row_height + row && ball_x >= brick_left && ball_x < brick_right) {
                     bricks[row][col] = 0;  // Mark the brick as hit
                     ball_dy *= -1;  // Reflect the ball
+
+                    // Clear the entire brick
+                    for (int i = 0; i < BRICK_WIDTH; i++) {
+                        mvprintw(brick_row_height + row, brick_left + i, " ");
+                    }
 
                     // Update the score based on the row
                     if (row == 0) {
