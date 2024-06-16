@@ -1,3 +1,5 @@
+[![Hits](https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https%3A%2F%2Fgithub.com%2Fmoshix%2Fbreakterm&count_bg=%2379C83D&title_bg=%23E0D8D8&icon=epicgames.svg&icon_color=%23E65656&title=hits&edge_flat=false)](https://hits.seeyoufarm.com)
+
 BREAK OUT for the terminal (also in ssh or telnet)
 ==================================================
 
