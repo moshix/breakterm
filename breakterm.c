@@ -19,15 +19,17 @@
 /*  v 1.1  More narrow bricks, for more bricks per row     */
 /*  v 1.2  More fluid paddle movement                      */
 /*  v 1.3  Happier brick colors                            */
-/*  v 1.4  Seperate paddle and ball timer for fluid game   */
+/*  v 1.4  Seperate paddle and ball timers for fluid play  */
 
-
+/* keep includes to a minimum */
 #include <ncurses.h>
 #include <stdlib.h>
 #include <unistd.h>
 #include <string.h>
 #include <signal.h>
 
+
+/* change these values here to customize your Breakterm game!  */
 #define PADDLE_WIDTH 8
 #define WINDOW_WIDTH 60
 #define WINDOW_HEIGHT 20
@@ -37,6 +39,8 @@
 #define PADDLE_VELOCITY 6 // how many chars the paddle moves per input
 #define BALL_TIMER 3 // how fast the ball should be moving. Heavily connectiona and hw dependent
 
+
+/* externals here */ 
 
 int paddle_x, paddle_dx = 0;
 int ball_x, ball_y;
@@ -65,6 +69,8 @@ void quit_game();
 void handle_quit_signal(int sig);
 int are_all_bricks_cleared();
 
+
+/* entry point to game */
 int main() {
     signal(SIGINT, handle_quit_signal);  // Handle Ctrl-C
     /* the cycle is like any other game, input, game logic */
@@ -76,6 +82,8 @@ int main() {
     game_loop();
     return 0;
 }
+
+
 
 void init_game() {
     initscr();
