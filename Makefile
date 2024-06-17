@@ -1,7 +1,7 @@
 all: breakterm
 CC=gcc
 breakterm: breakterm.c
-	$(CC) -g -O3 -o breakterm breakterm.c -lncurses
+	$(CC) -O3 -o breakterm breakterm.c -lncurses
 
 clean:
 	rm breakterm

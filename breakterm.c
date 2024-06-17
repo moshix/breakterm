@@ -16,6 +16,9 @@
 /*  v 0.9.1 some minor tweaks                              */
 /*  v 1.0  make sure all bricks are cleared before exiting */
 /*  v 1.1  make paddle a solid block !                     */
+/*  v 1.1  More narrow bricks, for more bricks per row     */
+/*  v 1.2  More fluid paddle movement                      */
+/*  v 1.3  Happier brick colors                            */
 
 
 #include <ncurses.h>
@@ -27,9 +30,11 @@
 #define PADDLE_WIDTH 10
 #define WINDOW_WIDTH 60
 #define WINDOW_HEIGHT 20
-#define BRICK_WIDTH 5
+#define BRICK_WIDTH 4
 #define NUM_BRICKS ((WINDOW_WIDTH / (BRICK_WIDTH + 2) - 2))
 #define PACING 110000 // how many milliseconds to wait between updates - configure here!
+#define PADDLE_VELOCITY 6 // how many chars the paddle moves per input
+
 
 int paddle_x, paddle_dx = 0;
 int ball_x, ball_y;
@@ -79,13 +84,13 @@ void init_game() {
     curs_set(0);
 
     /* color definitions */
-    init_pair(1, COLOR_YELLOW, COLOR_BLACK);  // Score and paddle color
+    init_pair(1, COLOR_WHITE, COLOR_BLACK);  // Score and paddle color
     init_pair(2, COLOR_CYAN, COLOR_BLACK);    // Message color
     init_pair(3, COLOR_YELLOW, COLOR_BLACK);  // Paddle color changed to yellow
     init_pair(4, COLOR_GREEN, COLOR_BLACK);   // Ball color
-    init_pair(5, COLOR_BLUE, COLOR_BLACK);    // Bricks first row
+    init_pair(5, COLOR_YELLOW, COLOR_BLACK);    // Bricks first row
     init_pair(6, COLOR_MAGENTA, COLOR_BLACK); // Bricks second row
-    init_pair(7, COLOR_CYAN, COLOR_BLACK);    // Bricks third row
+    init_pair(7, COLOR_RED, COLOR_BLACK);    // Bricks third row
     init_pair(8, COLOR_YELLOW, COLOR_BLACK);  // Welcome message "BREAKTERM"
     init_pair(9, COLOR_GREEN, COLOR_BLACK);   // Welcome message "(2024)"
     init_pair(10, COLOR_BLUE, COLOR_BLACK);   // Welcome message "by moshix"
@@ -137,17 +142,16 @@ void draw_paddle() {
     attroff(COLOR_PAIR(3) | A_REVERSE);
 }   
 
-
 void draw_bricks() {
     int start_x = (WINDOW_WIDTH - (NUM_BRICKS * (BRICK_WIDTH + 2) - 2)) / 2;
     for (int row = 0; row < 3; row++) {
         for (int col = 0; col < NUM_BRICKS; col++) {
             if (bricks[row][col]) {
-                attron(COLOR_PAIR(5 + row));
+                attron(COLOR_PAIR(5 + row) | A_REVERSE);
                 for (int i = 0; i < BRICK_WIDTH; i++) {
-                    mvprintw(2 + row, start_x + col * (BRICK_WIDTH + 2) + i, "=");
+                    mvprintw(2 + row * 2, start_x + col * (BRICK_WIDTH + 2) + i, " ");
                 }
-                attroff(COLOR_PAIR(5 + row));
+                attroff(COLOR_PAIR(5 + row) | A_REVERSE);
             }
         }
     }
@@ -173,21 +177,22 @@ void check_ball_collision() {
 
     // Check collision with bricks
     int brick_row_height = 2;  // Assuming bricks start at row 2
-    int brick_height = 3;      // Total number of brick rows
-    for (int row = 0; row < brick_height; row++) {
+    for (int row = 0; row < 3; row++) {
         int start_x = (WINDOW_WIDTH - (NUM_BRICKS * (BRICK_WIDTH + 2) - 2)) / 2; // Calculated from draw_bricks
         for (int col = 0; col < NUM_BRICKS; col++) {
             if (bricks[row][col]) {
+                int brick_top = brick_row_height + row * 2;
                 int brick_left = start_x + col * (BRICK_WIDTH + 2);
                 int brick_right = brick_left + BRICK_WIDTH;
-                if (ball_y == brick_row_height + row && ball_x >= brick_left && ball_x < brick_right) {
-                    bricks[row][col] = 0;  // Mark the brick as hit
+                if (ball_y == brick_top && ball_x >= brick_left && ball_x < brick_right) {
+                    // Remove the whole brick when any part is hit
+                    for (int i = 0; i < BRICK_WIDTH; i++) {
+                        mvprintw(brick_top, brick_left + i, " ");
+                    }
                     ball_dy *= -1;  // Reflect the ball
 
-                    // Clear the entire brick
-                    for (int i = 0; i < BRICK_WIDTH; i++) {
-                        mvprintw(brick_row_height + row, brick_left + i, " ");
-                    }
+                    // Mark the brick as hit
+                    bricks[row][col] = 0;
 
                     // Update the score based on the row
                     if (row == 0) {
@@ -202,6 +207,7 @@ void check_ball_collision() {
         }
     }
 }
+
 
 void move_ball() {      
     if (game_paused) return;
@@ -287,14 +293,14 @@ void game_loop() {
             switch (ch) {
                 case KEY_LEFT:
                     if (paddle_x > 1) {
-                        paddle_x -= 4; // how many asci move at the same time
+                        paddle_x -= PADDLE_VELOCITY; // how many asci move at the same time
                         paddle_dx = -1;
                         paddle_moved = 1;
                     }
                     break;
                 case KEY_RIGHT:
                     if (paddle_x < WINDOW_WIDTH - PADDLE_WIDTH - 1) {
-                        paddle_x += 4; // how many asci move at the same time
+                        paddle_x += PADDLE_VELOCITY; // how many asci move at the same time
                         paddle_dx = 1;
                         paddle_moved = 1;
                     }

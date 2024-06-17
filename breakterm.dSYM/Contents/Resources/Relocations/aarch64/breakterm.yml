@@ -1,0 +1,37 @@
+---
+triple:          'arm64-apple-darwin'
+binary-path:     breakterm
+relocations:
+  - { offsetInCU: 0x26, offset: 0x26, size: 0x8, addend: 0x0, symName: _main, symObjAddr: 0x0, symBinAddr: 0x100001DF0, symSize: 0x48 }
+  - { offsetInCU: 0x3F, offset: 0x3F, size: 0x8, addend: 0x0, symName: _paddle_dx, symObjAddr: 0x7A9C, symBinAddr: 0x10000800C, symSize: 0x0 }
+  - { offsetInCU: 0x5B, offset: 0x5B, size: 0x8, addend: 0x0, symName: _ball_dx, symObjAddr: 0x1ED4, symBinAddr: 0x100008000, symSize: 0x0 }
+  - { offsetInCU: 0x70, offset: 0x70, size: 0x8, addend: 0x0, symName: _ball_dy, symObjAddr: 0x1ED8, symBinAddr: 0x100008004, symSize: 0x0 }
+  - { offsetInCU: 0x85, offset: 0x85, size: 0x8, addend: 0x0, symName: _score, symObjAddr: 0x7AA0, symBinAddr: 0x100008010, symSize: 0x0 }
+  - { offsetInCU: 0x9A, offset: 0x9A, size: 0x8, addend: 0x0, symName: _lives, symObjAddr: 0x1EDC, symBinAddr: 0x100008008, symSize: 0x0 }
+  - { offsetInCU: 0xAF, offset: 0xAF, size: 0x8, addend: 0x0, symName: _paddle_moved, symObjAddr: 0x7AA4, symBinAddr: 0x100008014, symSize: 0x0 }
+  - { offsetInCU: 0xC4, offset: 0xC4, size: 0x8, addend: 0x0, symName: _game_paused, symObjAddr: 0x7AA8, symBinAddr: 0x100008018, symSize: 0x0 }
+  - { offsetInCU: 0xE7, offset: 0xE7, size: 0x8, addend: 0x0, symName: _paddle_x, symBinAddr: 0x100008038, symSize: 0x0 }
+  - { offsetInCU: 0xFC, offset: 0xFC, size: 0x8, addend: 0x0, symName: _ball_x, symBinAddr: 0x10000801C, symSize: 0x0 }
+  - { offsetInCU: 0x111, offset: 0x111, size: 0x8, addend: 0x0, symName: _ball_y, symBinAddr: 0x100008020, symSize: 0x0 }
+  - { offsetInCU: 0x126, offset: 0x126, size: 0x8, addend: 0x0, symName: _bricks, symBinAddr: 0x100008024, symSize: 0x0 }
+  - { offsetInCU: 0x160, offset: 0x160, size: 0x8, addend: 0x0, symName: _main, symObjAddr: 0x0, symBinAddr: 0x100001DF0, symSize: 0x48 }
+  - { offsetInCU: 0x1D1, offset: 0x1D1, size: 0x8, addend: 0x0, symName: _handle_quit_signal, symObjAddr: 0x48, symBinAddr: 0x100001E38, symSize: 0x4 }
+  - { offsetInCU: 0x1FE, offset: 0x1FE, size: 0x8, addend: 0x0, symName: _init_game, symObjAddr: 0x4C, symBinAddr: 0x100001E3C, symSize: 0x12C }
+  - { offsetInCU: 0x3A4, offset: 0x3A4, size: 0x8, addend: 0x0, symName: _print_welcome_message, symObjAddr: 0x1CF0, symBinAddr: 0x100003AE0, symSize: 0xC0 }
+  - { offsetInCU: 0x4F8, offset: 0x4F8, size: 0x8, addend: 0x0, symName: _game_loop, symObjAddr: 0x1930, symBinAddr: 0x100003720, symSize: 0x304 }
+  - { offsetInCU: 0x875, offset: 0x875, size: 0x8, addend: 0x0, symName: _handle_quit_signal, symObjAddr: 0x48, symBinAddr: 0x100001E38, symSize: 0x4 }
+  - { offsetInCU: 0x89B, offset: 0x89B, size: 0x8, addend: 0x0, symName: _handle_quit_signal, symObjAddr: 0x48, symBinAddr: 0x100001E38, symSize: 0x4 }
+  - { offsetInCU: 0x8A5, offset: 0x8A5, size: 0x8, addend: 0x0, symName: _quit_game, symObjAddr: 0x1DB0, symBinAddr: 0x100003BA0, symSize: 0x124 }
+  - { offsetInCU: 0xAA0, offset: 0xAA0, size: 0x8, addend: 0x0, symName: _reset_ball, symObjAddr: 0x178, symBinAddr: 0x100001F68, symSize: 0x3C }
+  - { offsetInCU: 0xAB3, offset: 0xAB3, size: 0x8, addend: 0x0, symName: _draw_borders, symObjAddr: 0x1B4, symBinAddr: 0x100001FA4, symSize: 0x2C4 }
+  - { offsetInCU: 0x101C, offset: 0x101C, size: 0x8, addend: 0x0, symName: _draw_score_and_lives, symObjAddr: 0x478, symBinAddr: 0x100002268, symSize: 0x6C }
+  - { offsetInCU: 0x107C, offset: 0x107C, size: 0x8, addend: 0x0, symName: _clear_paddle, symObjAddr: 0x4E4, symBinAddr: 0x1000022D4, symSize: 0xE8 }
+  - { offsetInCU: 0x11A1, offset: 0x11A1, size: 0x8, addend: 0x0, symName: _draw_paddle, symObjAddr: 0x5CC, symBinAddr: 0x1000023BC, symSize: 0x120 }
+  - { offsetInCU: 0x12EC, offset: 0x12EC, size: 0x8, addend: 0x0, symName: _draw_bricks, symObjAddr: 0x6EC, symBinAddr: 0x1000024DC, symSize: 0x358 }
+  - { offsetInCU: 0x1839, offset: 0x1839, size: 0x8, addend: 0x0, symName: _check_ball_collision, symObjAddr: 0xA44, symBinAddr: 0x100002834, symSize: 0xC28 }
+  - { offsetInCU: 0x23F6, offset: 0x23F6, size: 0x8, addend: 0x0, symName: _move_ball, symObjAddr: 0x166C, symBinAddr: 0x10000345C, symSize: 0x288 }
+  - { offsetInCU: 0x26C0, offset: 0x26C0, size: 0x8, addend: 0x0, symName: _print_game_over, symObjAddr: 0x1C34, symBinAddr: 0x100003A24, symSize: 0xBC }
+  - { offsetInCU: 0x27B4, offset: 0x27B4, size: 0x8, addend: 0x0, symName: _are_all_bricks_cleared, symObjAddr: 0x18F4, symBinAddr: 0x1000036E4, symSize: 0x3C }
+  - { offsetInCU: 0x27C7, offset: 0x27C7, size: 0x8, addend: 0x0, symName: _are_all_bricks_cleared, symObjAddr: 0x18F4, symBinAddr: 0x1000036E4, symSize: 0x3C }
+  - { offsetInCU: 0x27DA, offset: 0x27DA, size: 0x8, addend: 0x0, symName: _are_all_bricks_cleared, symObjAddr: 0x18F4, symBinAddr: 0x1000036E4, symSize: 0x3C }
+...

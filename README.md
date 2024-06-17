@@ -12,8 +12,8 @@ To compile the program, make sure you have a c compiler, libncurses and libncurs
 Have fun!
 
 Moshix  
-June 2024, on UA47  
+June 17, 2024 on UA47  
 
-![Actual game screenshot ](https://github.com/moshix/breakterm/blob/main/Screenshot%202024-06-15%20at%2010.58.34%20PM.png)
+![Actual game screenshot ](https://github.com/moshix/breakterm/blob/main/screenshot.png)
 
 
