@@ -19,6 +19,7 @@
 /*  v 1.1  More narrow bricks, for more bricks per row     */
 /*  v 1.2  More fluid paddle movement                      */
 /*  v 1.3  Happier brick colors                            */
+/*  v 1.4  Seperate paddle and ball timer for fluid game   */
 
 
 #include <ncurses.h>
@@ -27,13 +28,14 @@
 #include <string.h>
 #include <signal.h>
 
-#define PADDLE_WIDTH 10
+#define PADDLE_WIDTH 8
 #define WINDOW_WIDTH 60
 #define WINDOW_HEIGHT 20
 #define BRICK_WIDTH 4
 #define NUM_BRICKS ((WINDOW_WIDTH / (BRICK_WIDTH + 2) - 2))
 #define PACING 110000 // how many milliseconds to wait between updates - configure here!
 #define PADDLE_VELOCITY 6 // how many chars the paddle moves per input
+#define BALL_TIMER 3 // how fast the ball should be moving. Heavily connectiona and hw dependent
 
 
 int paddle_x, paddle_dx = 0;
@@ -86,7 +88,7 @@ void init_game() {
     /* color definitions */
     init_pair(1, COLOR_WHITE, COLOR_BLACK);  // Score and paddle color
     init_pair(2, COLOR_CYAN, COLOR_BLACK);    // Message color
-    init_pair(3, COLOR_YELLOW, COLOR_BLACK);  // Paddle color changed to yellow
+    init_pair(3, COLOR_WHITE, COLOR_BLACK);  // Paddle color changed to yellow
     init_pair(4, COLOR_GREEN, COLOR_BLACK);   // Ball color
     init_pair(5, COLOR_YELLOW, COLOR_BLACK);    // Bricks first row
     init_pair(6, COLOR_MAGENTA, COLOR_BLACK); // Bricks second row
@@ -111,12 +113,12 @@ void draw_borders() {
     /* define playing field. can be changed in definitions at the top */
     attron(COLOR_PAIR(2));
     for (int i = 0; i < WINDOW_WIDTH; ++i) {
-        mvprintw(0, i, "#");
-        mvprintw(WINDOW_HEIGHT - 1, i, "#");
+        mvprintw(0, i, "_"); // this is the roof
+        mvprintw(WINDOW_HEIGHT - 1, i, "_"); // this is the floor
     }
     for (int i = 1; i < WINDOW_HEIGHT - 1; ++i) {
-        mvprintw(i, 0, "#");
-        mvprintw(i, WINDOW_WIDTH - 1, "#");
+        mvprintw(i, 0, "|"); //left wall
+        mvprintw(i, WINDOW_WIDTH - 1, "|"); //right wall
     }
     attroff(COLOR_PAIR(2));
 }
@@ -126,6 +128,20 @@ void draw_score_and_lives() {
     attron(COLOR_PAIR(1));
     mvprintw(0, 2, "Score: %d  Lives: %d", score, lives);
     attroff(COLOR_PAIR(1));
+}
+
+
+
+void move_paddle(int direction) {
+    clear_paddle();
+    if (direction == KEY_LEFT && paddle_x > 1) {
+        paddle_x -= 6;  // Substantially increased value for faster movement
+        if (paddle_x < 1) paddle_x = 1;
+    } else if (direction == KEY_RIGHT && paddle_x < WINDOW_WIDTH - PADDLE_WIDTH - 1) {
+        paddle_x += 6;  // Substantially increased value for faster movement
+        if (paddle_x > WINDOW_WIDTH - PADDLE_WIDTH - 1) paddle_x = WINDOW_WIDTH - PADDLE_WIDTH - 1;
+    }
+    draw_paddle();
 }
 
 void clear_paddle() {
@@ -279,48 +295,38 @@ int are_all_bricks_cleared() {
     return 1;  // All bricks are cleared
 }
 
+
 void game_loop() {
     int ch;
     nodelay(stdscr, TRUE);
+    timeout(20);  // Set timeout for getch() to 20 milliseconds for more responsive paddle movement
     while (1) {
         ch = getch();
         if (ch == 'q' || ch == 'Q' || ch == 'x' || ch == 'X' || ch == 3) {  // 'q', 'x', or Ctrl-C
             quit_game();
             continue;
         } else if (ch == KEY_LEFT || ch == KEY_RIGHT) {
-            paddle_dx = 0;
-            clear_paddle();
-            switch (ch) {
-                case KEY_LEFT:
-                    if (paddle_x > 1) {
-                        paddle_x -= PADDLE_VELOCITY; // how many asci move at the same time
-                        paddle_dx = -1;
-                        paddle_moved = 1;
-                    }
-                    break;
-                case KEY_RIGHT:
-                    if (paddle_x < WINDOW_WIDTH - PADDLE_WIDTH - 1) {
-                        paddle_x += PADDLE_VELOCITY; // how many asci move at the same time
-                        paddle_dx = 1;
-                        paddle_moved = 1;
-                    }
-                    break;
-            }
+            move_paddle(ch);
+        }
 
-            // Clear the input buffer after processing the key press
-            flushinp();
+        // Move the ball separately with a different timing
+        static int ball_timer = 0;
+        if (ball_timer++ >= BALL_TIMER) {  // Adjust this value to control the ball speed
+            move_ball();
+            ball_timer = 0;
         }
 
         draw_borders();
         draw_score_and_lives();
-        draw_paddle();
         draw_bricks();
-        move_ball();
         refresh();
-        usleep(PACING); // 100 milliseconds delay for game pacing
+        usleep(10000);  // Shorter delay to make paddle movement more fluid
     }
     endwin();
 }
+
+
+
 
 void print_game_over() {
     attron(COLOR_PAIR(2));
