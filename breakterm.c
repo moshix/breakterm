@@ -454,7 +454,7 @@ void show_directory_listing() {
     mvprintw(11, 0, "-rw-r--r-- 1 banking prod 1024 Jun 22 14:35 graphics.c");
     mvprintw(12, 0, "-rw-r--r-- 1 banking prod  512 Jun 22 14:40 input.h");
     mvprintw(13, 0, "-rw-r--r-- 1 banking prod  256 Jun 22 14:45 trading.c");
-    mvprintw(15, 0, "Press B to return to the breakterm...");
+    mvprintw(15, 0, "Press B to return to Breakterm...");
     refresh();
 
 
