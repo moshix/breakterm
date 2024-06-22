@@ -1,4 +1,4 @@
-# We dont' want build files to show as changes by git
+# We don't want build files to show as changes by git
 screenshot.png
 Screenshot 2024-06-15 at 10.58.34 PM.png
 breakterm.dSYM/
