@@ -24,8 +24,10 @@
 /*  v 1.6  Add P or p to pause/unpause the game            */
 /*  v 1.7  B or b for boss key. Shows boring screen        */
 /*  v 1.8  Add infinite levels! Each level ball 15% faster */
+/*  v 1.9  pass lives at program invocaton -l 5 and ...    */
+/*          acceleration at next game level with -a 20 (%) */
 
-#define VERSION "1.8"  // Version of the code
+#define VERSION "1.9"  // Version of the code
 
 /* keep includes to a minimum */
 #include <ncurses.h>
@@ -33,6 +35,7 @@
 #include <unistd.h>
 #include <string.h>
 #include <signal.h>
+#include <getopt.h>
 
 
 /* change these values here to customize your Breakterm game!  */
@@ -44,16 +47,16 @@
 #define PACING 110000 // how many milliseconds to wait between updates - configure here!
 #define PADDLE_VELOCITY 6 // how many chars the paddle moves per input
 #define BALL_TIMER 3 // how fast the ball should be moving. Heavily connectiona and hw dependent
-#define BALL_ACCELERATION_PERCENT 15  // Ball speed increases by 15% each level
 
 
 /* externals here */
+int lives = 4;  // Default lives
+float ball_acceleration_percent = 15.0;  // Default ball acceleration percentage
 
 int paddle_x, paddle_dx = 0;
 int ball_x, ball_y;
 int ball_dx = 1, ball_dy = -1;
 int score = 0;
-int lives = 4;
 int paddle_moved = 0;
 int game_paused = 0;  // Game starts unpaused
 int level = 1;        // Global variable for the level
@@ -82,9 +85,26 @@ void reset_level(); /* a level has finished */
 
 
 /* entry point to game */
-int main() {
+int main(int argc, char *argv[]) {
 /* the cycle is like any other game, input, game logic */
     signal(SIGINT, handle_quit_signal);  // Handle Ctrl-C
+    int opt;
+    while ((opt = getopt(argc, argv, "l:a:")) != -1) {
+            switch (opt) {
+                case 'l':
+                    lives = atoi(optarg);
+                    break;
+                case 'a':
+                    ball_acceleration_percent = atof(optarg);
+                    break;
+                default:
+                    fprintf(stderr, "Usage: %s [-l lives] [-a ball_acceleration_percent]\n", argv[0]);
+                    exit(EXIT_FAILURE);
+            }
+        }
+
+
+
     init_game();
     print_welcome_message();
     getch();
@@ -310,7 +330,7 @@ void move_ball() {
         usleep(3200000);  // Pause to allow the player to see the message
 
         // Increase ball speed by BALL_ACCELERATION_PERCENT
-        float acceleration_factor = 1 + (BALL_ACCELERATION_PERCENT / 100.0);
+        float acceleration_factor = 1 + (ball_acceleration_percent / 100.0);
         ball_dx *= acceleration_factor;
         ball_dy *= acceleration_factor;
 
