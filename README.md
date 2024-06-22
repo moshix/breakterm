@@ -17,7 +17,7 @@ Then just type **make**. It should compile without warnings, or errors, Gd forbi
 
 Game Keys
 =========
-'< for Left'  
+ < for Left  
 > for Right  
 P for Pause  
 B for Boss screen  
