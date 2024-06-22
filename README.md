@@ -9,6 +9,13 @@ z/OS USS sports subtle differences from other, 'normal' *NIXES that make termina
 
 To compile the program, make sure you have a c compiler, libncurses and libncurses-dev installed. Then just type **make**. It should compile without warnings, or errors, Gd forbid. 
 
+Game Keys
+=========
+
+P for Pause
+B for Boss screen
+Q for Quit (or Control-C)  
+
 Have fun!
 
 Moshix  
