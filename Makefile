@@ -13,8 +13,10 @@ EXEC = breakterm
 # Object files
 OBJ = $(SRC:.c=.o)
 
-all: breakterm
-breakterm: breakterm.c
+# Default target
+all: $(EXEC)
+
+$(EXEC): breakterm.c
 	$(CC) $(CFLAGS) -o breakterm breakterm.c -lncurses
 
 clean:
