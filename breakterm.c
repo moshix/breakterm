@@ -404,6 +404,8 @@ void print_welcome_message() {
     mvprintw(WINDOW_HEIGHT / 2 + 1, (WINDOW_WIDTH / 2) - 5, "by moshix");
     attroff(COLOR_PAIR(10));
 
+    mvprintw(WINDOW_HEIGHT - 5, 2, "Press P to Pause, B for Boss Screen, Q to Quit");
+
     refresh();
 }
 
@@ -457,7 +459,7 @@ void show_directory_listing() {
 
 
     while ((ch = getch()) != 'b' && ch != 'B')
-                                               ;  // Wait for B or b to be pressed
+    ;  // Wait for B or b to be pressed
         clear();
         draw_borders();
         draw_score_and_lives();
