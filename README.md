@@ -12,7 +12,7 @@ To compile the program, make sure you have a c compiler, libncurses and libncurs
 Have fun!
 
 Moshix  
-June 19, 2024 on UA47  
+June 21, 2024 - Firenze  
 
 ![Actual game screenshot ](https://github.com/moshix/breakterm/blob/main/screenshot2.png)
 
