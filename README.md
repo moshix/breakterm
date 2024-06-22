@@ -20,7 +20,7 @@ Game Keys
   
 P for Pause  
 B for Boss screen  
-Q for Quit (or Control-C) 
+Q for Quit (or Control-C)   
 Left cursor for reft  
 Right cursor for right  
   
