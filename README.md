@@ -1,7 +1,7 @@
 [![Hits](https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https%3A%2F%2Fgithub.com%2Fmoshix%2Fbreakterm&count_bg=%2379C83D&title_bg=%23E0D8D8&icon=epicgames.svg&icon_color=%23E65656&title=hits&edge_flat=false)](https://hits.seeyoufarm.com)
 
-BREAK OUT for the terminal (also in ssh or telnet)
-==================================================
+BREAK OUT for the terminal (also in ssh, mosh or telnet)
+========================================================
 
 This is an ad-hoc implementation of the famous breakout game for the *NIX terminal, in 350 lines or so.  I wrote it so it would work also on z/OS USS. but it runs on every type of *NIX, such as Linux, AIX, Macos, NetBSD, FreeBSD, Solaris, HP-UX, and Android. 
 
