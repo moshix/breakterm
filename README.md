@@ -3,7 +3,7 @@
 BREAK OUT for the terminal (also in ssh, mosh or telnet)
 ========================================================
 
-This is an ad-hoc implementation of the famous breakout game for the *NIX terminal, in 350 lines or so.  I wrote it so it would work also on z/OS USS. but it runs on every type of *NIX, such as Linux, AIX, Macos, NetBSD, FreeBSD, Solaris, HP-UX, and Android. 
+This is an ad-hoc implementation of the famous breakout game for the *NIX terminal, in 400 lines of C, or so.  I wrote it so it would work also on z/OS USS. but it runs on every type of *NIX, such as Linux, AIX, Macos, NetBSD, FreeBSD, Solaris, HP-UX, and Android. 
 
 z/OS USS sports subtle differences from other, 'normal' *NIXES that make terminal stuff more challenging. This works on z/OS USS. 
 
@@ -24,13 +24,15 @@ Q for Quit
 Left cursor for left  
 Right cursor for right  
 
-You start with 4 lives and at level 1. Each time you finish a level, the ball speeds up by 15%! Can you survive the next level?   
+You can also invoke the program and pass it how many starting lives you want (with -l 5 for 5 lives), and with -a 20% (for ball acceleration percent at each new game level).  
+
+You start by default with 4 lives and at level 1. Each time you finish a level, the ball speeds up by 15%! Can you survive the next level?   
   
   
 **Have fun!**
 
 Moshix  
-June 21, 2024 - Firenze  
+June 22, 2024 - Firenze  
 
 ![Actual game screenshot ](https://github.com/moshix/breakterm/blob/main/screenshot2.png)
 
