@@ -1,7 +1,7 @@
 # If CC is not set, default to gcc
 CC ?= gcc
 
-# Compiler flags
+# Compiler flags, have not seen issues with z/OS with O3
 CFLAGS = -O3 -Wall -g
 
 # Source files
