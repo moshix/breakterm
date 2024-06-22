@@ -10,7 +10,7 @@
 /*  v 0.4 colors!                                          */
 /*  v 0.5 quittting logic                                  */
 /*  v 0.6 Score keeping                                    */
-/*  v 0.7 3 lives. that's it.                              */
+/*  v 0.7 Introduce concept of player lives                */
 /*  v 0.8 bricks! and points!                              */
 /*  v 0.9 fine tune game parameters (paddel movmt etc.)    */
 /*  v 0.9.1 some minor tweaks                              */
@@ -22,8 +22,10 @@
 /*  v 1.4  Seperate paddle and ball timers for fluid play  */
 /*  v 1.5  Detect boring totally vertical ball w/o bricks  */
 /*  v 1.6  Add P or p to pause/unpause the game            */
-/*  v 1.7  B or b for Boss key. Shows boring screen        */
+/*  v 1.7  B or b for boss key. Shows boring screen        */
+/*  v 1.8  Add infinite levels! Each level ball 15% faster */
 
+#define VERSION "1.8"  // Version of the code
 
 /* keep includes to a minimum */
 #include <ncurses.h>
@@ -42,6 +44,7 @@
 #define PACING 110000 // how many milliseconds to wait between updates - configure here!
 #define PADDLE_VELOCITY 6 // how many chars the paddle moves per input
 #define BALL_TIMER 3 // how fast the ball should be moving. Heavily connectiona and hw dependent
+#define BALL_ACCELERATION_PERCENT 15  // Ball speed increases by 15% each level
 
 
 /* externals here */
@@ -50,10 +53,10 @@ int paddle_x, paddle_dx = 0;
 int ball_x, ball_y;
 int ball_dx = 1, ball_dy = -1;
 int score = 0;
-int lives = 3;
+int lives = 4;
 int paddle_moved = 0;
 int game_paused = 0;  // Game starts unpaused
-
+int level = 1;        // Global variable for the level
 
 char bricks[3][NUM_BRICKS];  // 3 rows of bricks
 
@@ -75,21 +78,24 @@ void handle_quit_signal(int sig);
 int are_all_bricks_cleared();
 void print_message(const char *message, int seconds);
 void show_directory_listing(); /* for boss key B or b ! */
-
+void reset_level(); /* a level has finished */
 
 
 /* entry point to game */
 int main() {
+/* the cycle is like any other game, input, game logic */
     signal(SIGINT, handle_quit_signal);  // Handle Ctrl-C
-    /* the cycle is like any other game, input, game logic */
     init_game();
     print_welcome_message();
     getch();
     clear();
-    refresh();
     game_loop();
     return 0;
 }
+
+
+
+
 
 
 
@@ -140,11 +146,11 @@ void draw_borders() {
 }
 
 void draw_score_and_lives() {
-    /* self-explanatory */
     attron(COLOR_PAIR(1));
-    mvprintw(0, 2, "Score: %d  Lives: %d", score, lives);
+    mvprintw(0, 2, "Score: %d  Lives: %d  Level: %d", score, lives, level);
     attroff(COLOR_PAIR(1));
 }
+
 
 
 
@@ -274,7 +280,7 @@ void move_ball() {
             draw_score_and_lives();
             draw_paddle();
             draw_bricks();
-            mvprintw(WINDOW_HEIGHT / 2, (WINDOW_WIDTH / 2) - 10, "You lost one life!");
+            print_message("You lost one life!", 2); // Display message for 2 seconds
             usleep(2000000);  // Display message for 2 seconds
 
             clear();  // Clear the screen again to remove the message
@@ -291,7 +297,6 @@ void move_ball() {
             refresh();
             usleep(2000000);  // Pause to allow the player to see the Game Over message
 
-
             endwin();
             exit(0);  // Exit the game after displaying the Game Over message
         }
@@ -299,21 +304,28 @@ void move_ball() {
 
     // Check if all bricks are cleared
     if (are_all_bricks_cleared()) {
-        game_paused = 1; // Pause the game to display the Game Over message
-        clear();  // Clear the screen before displaying the game over message
-        print_game_over();
-        refresh();
-        usleep(2000000);  // Pause to allow the player to see the Game Over message
+        game_paused = 1; // Pause the game to display the level complete message
+        clear();  // Clear the screen before displaying the message
+        print_message("You finished another level!", 3); // Display message for 3 seconds
+        usleep(3200000);  // Pause to allow the player to see the message
 
+        // Increase ball speed by BALL_ACCELERATION_PERCENT
+        float acceleration_factor = 1 + (BALL_ACCELERATION_PERCENT / 100.0);
+        ball_dx *= acceleration_factor;
+        ball_dy *= acceleration_factor;
 
-        endwin();
-        exit(0);  // Exit the game after displaying the Game Over message
+        level++;  // Increment the level
+        reset_level();  // Reset the level
+        game_paused = 0;
+        return;
+
     }
 
     mvprintw(ball_y, ball_x, "O");
     attroff(COLOR_PAIR(4));
     refresh();  // Make sure all changes are shown on screen
 }
+
 
 
 int are_all_bricks_cleared() {
@@ -393,7 +405,7 @@ void print_game_over() {
 
 void print_welcome_message() {
     attron(COLOR_PAIR(8));
-    mvprintw(WINDOW_HEIGHT / 2 - 1, (WINDOW_WIDTH / 2) - 9, "BREAKTERM");
+    mvprintw(WINDOW_HEIGHT / 2 - 1, (WINDOW_WIDTH / 2) - 9, "BREAKTERM - v%s", VERSION);
     attroff(COLOR_PAIR(8));
 
     attron(COLOR_PAIR(9));
@@ -403,7 +415,6 @@ void print_welcome_message() {
     attron(COLOR_PAIR(10));
     mvprintw(WINDOW_HEIGHT / 2 + 1, (WINDOW_WIDTH / 2) - 5, "by moshix");
     attroff(COLOR_PAIR(10));
-
     mvprintw(WINDOW_HEIGHT - 5, 2, "Press P to Pause, B for Boss Screen, Q to Quit");
 
     refresh();
@@ -484,6 +495,18 @@ void print_message(const char *message, int seconds) {
         draw_bricks();
     }
 }
+
+
+void reset_level() {
+    clear();
+    draw_borders();
+    draw_score_and_lives();
+    draw_paddle();
+    memset(bricks, 1, sizeof(bricks));  // Reset all bricks
+    reset_ball();
+    refresh();
+}
+
 
 void handle_quit_signal(int sig) {
     /* go out */
