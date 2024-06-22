@@ -442,19 +442,19 @@ void show_directory_listing() {
     int ch;  // Declare ch within the function
     clear();
     mvprintw(1, 0, "total 64");
-    mvprintw(2, 0, "drwxr-xr-x 2 user group 4096 Jun 22 15:00 .");
-    mvprintw(3, 0, "drwxr-xr-x 5 user group 4096 Jun 22 14:00 ..");
-    mvprintw(4, 0, "-rw-r--r-- 1 user group  512 Jun 22 14:00 README.md");
-    mvprintw(5, 0, "-rw-r--r-- 1 user group 1024 Jun 22 14:05 main.c");
-    mvprintw(6, 0, "-rw-r--r-- 1 user group 2048 Jun 22 14:10 utils.c");
-    mvprintw(7, 0, "-rw-r--r-- 1 user group 4096 Jun 22 14:15 config.h");
-    mvprintw(8, 0, "-rw-r--r-- 1 user group  256 Jun 22 14:20 Makefile");
-    mvprintw(9, 0, "-rw-r--r-- 1 user group  512 Jun 22 14:25 LICENSE");
-    mvprintw(10, 0, "-rw-r--r-- 1 user group  512 Jun 22 14:30 banking.c");
-    mvprintw(11, 0, "-rw-r--r-- 1 user group 1024 Jun 22 14:35 graphics.c");
-    mvprintw(12, 0, "-rw-r--r-- 1 user group  512 Jun 22 14:40 input.h");
-    mvprintw(13, 0, "-rw-r--r-- 1 user group  256 Jun 22 14:45 trading.c");
-    mvprintw(15, 0, "Press B to return to the treakterm...");
+    mvprintw(2, 0, "drwxr-xr-x 2 banking prod 4096 Jun 22 15:00 .");
+    mvprintw(3, 0, "drwxr-xr-x 5 banking prod 4096 Jun 22 14:00 ..");
+    mvprintw(4, 0, "-rw-r--r-- 1 banking prod  512 Jun 22 14:00 README.md");
+    mvprintw(5, 0, "-rw-r--r-- 1 banking prod 1024 Jun 22 14:05 main.c");
+    mvprintw(6, 0, "-rw-r--r-- 1 banking prod 2048 Jun 22 14:10 utils.c");
+    mvprintw(7, 0, "-rw-r--r-- 1 banking prod 4096 Jun 22 14:15 config.h");
+    mvprintw(8, 0, "-rw-r--r-- 1 banking prod  256 Jun 22 14:20 Makefile");
+    mvprintw(9, 0, "-rw-r--r-- 1 banking prod  512 Jun 22 14:25 LICENSE");
+    mvprintw(10, 0, "-rw-r--r-- 1 banking prod  512 Jun 22 14:30 banking.c");
+    mvprintw(11, 0, "-rw-r--r-- 1 banking prod 1024 Jun 22 14:35 graphics.c");
+    mvprintw(12, 0, "-rw-r--r-- 1 banking prod  512 Jun 22 14:40 input.h");
+    mvprintw(13, 0, "-rw-r--r-- 1 banking prod  256 Jun 22 14:45 trading.c");
+    mvprintw(15, 0, "Press B to return to the breakterm...");
     refresh();
 
 
