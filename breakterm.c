@@ -22,6 +22,8 @@
 /*  v 1.4  Seperate paddle and ball timers for fluid play  */
 /*  v 1.5  Detect boring totally vertical ball w/o bricks  */
 /*  v 1.6  Add P or p to pause/unpause the game            */
+/*  v 1.7  B or b for Boss key. Shows boring screen        */
+
 
 /* keep includes to a minimum */
 #include <ncurses.h>
@@ -72,6 +74,7 @@ void quit_game();
 void handle_quit_signal(int sig);
 int are_all_bricks_cleared();
 void print_message(const char *message, int seconds);
+void show_directory_listing(); /* for boss key B or b ! */
 
 
 
@@ -347,6 +350,9 @@ void game_loop() {
                 refresh();
             }
             continue;
+        } else if (ch == 'b' || ch == 'B') {
+            show_directory_listing();  // Display directory listing
+            continue;
         } else if (!game_paused && (ch == KEY_LEFT || ch == KEY_RIGHT)) {
             move_paddle(ch);
         }
@@ -429,6 +435,38 @@ void quit_game() {
         }
     }
 }
+
+void show_directory_listing() {
+    int ch;  // Declare ch within the function
+    clear();
+    mvprintw(1, 0, "total 64");
+    mvprintw(2, 0, "drwxr-xr-x 2 user group 4096 Jun 22 15:00 .");
+    mvprintw(3, 0, "drwxr-xr-x 5 user group 4096 Jun 22 14:00 ..");
+    mvprintw(4, 0, "-rw-r--r-- 1 user group  512 Jun 22 14:00 README.md");
+    mvprintw(5, 0, "-rw-r--r-- 1 user group 1024 Jun 22 14:05 main.c");
+    mvprintw(6, 0, "-rw-r--r-- 1 user group 2048 Jun 22 14:10 utils.c");
+    mvprintw(7, 0, "-rw-r--r-- 1 user group 4096 Jun 22 14:15 config.h");
+    mvprintw(8, 0, "-rw-r--r-- 1 user group  256 Jun 22 14:20 Makefile");
+    mvprintw(9, 0, "-rw-r--r-- 1 user group  512 Jun 22 14:25 LICENSE");
+    mvprintw(10, 0, "-rw-r--r-- 1 user group  512 Jun 22 14:30 banking.c");
+    mvprintw(11, 0, "-rw-r--r-- 1 user group 1024 Jun 22 14:35 graphics.c");
+    mvprintw(12, 0, "-rw-r--r-- 1 user group  512 Jun 22 14:40 input.h");
+    mvprintw(13, 0, "-rw-r--r-- 1 user group  256 Jun 22 14:45 trading.c");
+    mvprintw(15, 0, "Press B to return to the treakterm...");
+    refresh();
+
+
+    while ((ch = getch()) != 'b' && ch != 'B')
+                                               ;  // Wait for B or b to be pressed
+        clear();
+        draw_borders();
+        draw_score_and_lives();
+        draw_paddle();
+        draw_bricks();
+        refresh();
+}
+
+
 
 void print_message(const char *message, int seconds) {
     attron(COLOR_PAIR(2));
