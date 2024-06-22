@@ -20,6 +20,7 @@
 /*  v 1.2  More fluid paddle movement                      */
 /*  v 1.3  Happier brick colors                            */
 /*  v 1.4  Seperate paddle and ball timers for fluid play  */
+/*  v 1.5  Detect boring totally vertical ball w/o bricks  */
 
 /* keep includes to a minimum */
 #include <ncurses.h>
@@ -233,28 +234,42 @@ void check_ball_collision() {
 }
 
 
-void move_ball() {      
+void move_ball() {
     if (game_paused) return;
 
     attron(COLOR_PAIR(4));
     mvprintw(ball_y, ball_x, " "); // Clear old position
     ball_x += ball_dx;
     ball_y += ball_dy;
+
+    // Check for perfectly vertical movement and no bricks in the path
+    if (ball_dx == 0 && ball_dy == 1) {
+        int vertical_clear = 1;
+        for (int row = (ball_y / 2) - 1; row >= 0; row--) {
+            int col = ball_x / (BRICK_WIDTH + 1);
+            if (bricks[row][col]) {
+                vertical_clear = 0;
+                break;
+            }
+        }
+        if (vertical_clear) {
+            ball_dx = (ball_x < WINDOW_WIDTH / 2) ? 1 : -1; // Add slight spin towards the center
+        }
+    }
+
     check_ball_collision();
-    
+
     if (ball_y >= WINDOW_HEIGHT - 1) {
-        lives--;    
+        lives--;
         if (lives > 0) {
             clear();  // Clear the screen to remove stale outputs
             draw_borders();
             draw_score_and_lives();
             draw_paddle();
             draw_bricks();
-            attron(COLOR_PAIR(2));
             mvprintw(WINDOW_HEIGHT / 2, (WINDOW_WIDTH / 2) - 10, "You lost one life!");
-            refresh();
             usleep(2000000);  // Display message for 2 seconds
-    
+
             clear();  // Clear the screen again to remove the message
             draw_borders();
             draw_score_and_lives();
@@ -268,23 +283,25 @@ void move_ball() {
             print_game_over();
             refresh();
             usleep(2000000);  // Pause to allow the player to see the Game Over message
+
+
             endwin();
             exit(0);  // Exit the game after displaying the Game Over message
         }
     }
 
-
-        if (are_all_bricks_cleared()) {
-            game_paused = 1; // Pause the game to display the Game Over message
-            clear();  // Clear the screen before displaying the game over message
-            print_game_over();
-            refresh();
-            usleep(2000000);  // Pause to allow the player to see the Game Over message
-            endwin();
-            exit(0);  // Exit the game after displaying the Game Over message
-        }
+    // Check if all bricks are cleared
+    if (are_all_bricks_cleared()) {
+        game_paused = 1; // Pause the game to display the Game Over message
+        clear();  // Clear the screen before displaying the game over message
+        print_game_over();
+        refresh();
+        usleep(2000000);  // Pause to allow the player to see the Game Over message
 
 
+        endwin();
+        exit(0);  // Exit the game after displaying the Game Over message
+    }
 
     mvprintw(ball_y, ball_x, "O");
     attroff(COLOR_PAIR(4));
