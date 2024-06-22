@@ -21,6 +21,7 @@
 /*  v 1.3  Happier brick colors                            */
 /*  v 1.4  Seperate paddle and ball timers for fluid play  */
 /*  v 1.5  Detect boring totally vertical ball w/o bricks  */
+/*  v 1.6  Add P or p to pause/unpause the game            */
 
 /* keep includes to a minimum */
 #include <ncurses.h>
@@ -41,7 +42,7 @@
 #define BALL_TIMER 3 // how fast the ball should be moving. Heavily connectiona and hw dependent
 
 
-/* externals here */ 
+/* externals here */
 
 int paddle_x, paddle_dx = 0;
 int ball_x, ball_y;
@@ -49,7 +50,8 @@ int ball_dx = 1, ball_dy = -1;
 int score = 0;
 int lives = 3;
 int paddle_moved = 0;
-int game_paused = 0;
+int game_paused = 0;  // Game starts unpaused
+
 
 char bricks[3][NUM_BRICKS];  // 3 rows of bricks
 
@@ -69,6 +71,8 @@ void print_welcome_message();
 void quit_game();
 void handle_quit_signal(int sig);
 int are_all_bricks_cleared();
+void print_message(const char *message, int seconds);
+
 
 
 /* entry point to game */
@@ -115,7 +119,7 @@ void reset_ball() {
     /* each new game starts with ball on the paddle */
     ball_x = paddle_x + PADDLE_WIDTH / 2 - 1;  // Center ball on the paddle
     ball_y = WINDOW_HEIGHT - 3;
-    ball_dy = -1;  // make sure the ball only starts upwards 
+    ball_dy = -1;  // make sure the ball only starts upwards
 }
 
 void draw_borders() {
@@ -161,11 +165,11 @@ void clear_paddle() {
 }
 void draw_paddle() {
     attron(COLOR_PAIR(3) | A_REVERSE);  // Use reverse video and yellow color
-    for (int i = 0; i < PADDLE_WIDTH; ++i) {  
+    for (int i = 0; i < PADDLE_WIDTH; ++i) {
         mvprintw(WINDOW_HEIGHT - 2, paddle_x + i, " ");
     }
     attroff(COLOR_PAIR(3) | A_REVERSE);
-}   
+}
 
 void draw_bricks() {
     int start_x = (WINDOW_WIDTH - (NUM_BRICKS * (BRICK_WIDTH + 2) - 2)) / 2;
@@ -330,25 +334,41 @@ void game_loop() {
         if (ch == 'q' || ch == 'Q' || ch == 'x' || ch == 'X' || ch == 3) {  // 'q', 'x', or Ctrl-C
             quit_game();
             continue;
-        } else if (ch == KEY_LEFT || ch == KEY_RIGHT) {
+        } else if (ch == 'p' || ch == 'P') {
+            game_paused = !game_paused;  // Toggle game pause state
+            if (game_paused) {
+                print_message("Game Paused. Press P to resume.", 0);  // Display paused message
+            } else {
+                clear();
+                draw_borders();
+                draw_score_and_lives();
+                draw_paddle();
+                draw_bricks();
+                refresh();
+            }
+            continue;
+        } else if (!game_paused && (ch == KEY_LEFT || ch == KEY_RIGHT)) {
             move_paddle(ch);
         }
 
         // Move the ball separately with a different timing
-        static int ball_timer = 0;
-        if (ball_timer++ >= BALL_TIMER) {  // Adjust this value to control the ball speed
-            move_ball();
-            ball_timer = 0;
-        }
+        if (!game_paused) {
+            static int ball_timer = 0;
+            if (ball_timer++ >= 3) {  // Adjust this value to control the ball speed (lower value for faster ball)
+                move_ball();
+                ball_timer = 0;
+            }
 
-        draw_borders();
-        draw_score_and_lives();
-        draw_bricks();
-        refresh();
+            draw_borders();
+            draw_score_and_lives();
+            draw_bricks();
+            refresh();
+        }
         usleep(10000);  // Shorter delay to make paddle movement more fluid
     }
     endwin();
 }
+
 
 
 
@@ -410,8 +430,22 @@ void quit_game() {
     }
 }
 
+void print_message(const char *message, int seconds) {
+    attron(COLOR_PAIR(2));
+    mvprintw(WINDOW_HEIGHT / 2, (WINDOW_WIDTH - strlen(message)) / 2, "%s", message);
+    attroff(COLOR_PAIR(2));
+    refresh();
+    if (seconds > 0) {
+        sleep(seconds);
+        clear();
+        draw_borders();
+        draw_score_and_lives();
+        draw_paddle();
+        draw_bricks();
+    }
+}
+
 void handle_quit_signal(int sig) {
     /* go out */
     quit_game();
 }
-
