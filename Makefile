@@ -4,12 +4,21 @@ CC ?= gcc
 # Compiler flags
 CFLAGS = -O3 -Wall -g
 
+# Source files
+SRC = breakterm.c
+
+# Executable name
+EXEC = breakterm
+
+# Object files
+OBJ = $(SRC:.c=.o)
+
 all: breakterm
 breakterm: breakterm.c
 	$(CC) $(CFLAGS) -o breakterm breakterm.c -lncurses
 
 clean:
-	rm breakterm
+	rm $(EXEC)
 
 clear:
-	rm breakterm
+	rm $(EXEC)
