@@ -21,7 +21,7 @@ Game Play
 P for Pause  
 B for Boss screen  
 Q for Quit    
-Left cursor for reft  
+Left cursor for left  
 Right cursor for right  
 
 You start with 3 lives and at level 1. Each time you finish a level, the ball speeds up by 15%! Can you survive the next level?   
