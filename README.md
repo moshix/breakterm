@@ -7,7 +7,12 @@ This is an ad-hoc implementation of the famous breakout game for the *NIX termin
 
 z/OS USS sports subtle differences from other, 'normal' *NIXES that make terminal stuff more challenging. This works on z/OS USS. 
 
-To compile the program, make sure you have a c compiler, libncurses and libncurses-dev installed. Then just type **make**. It should compile without warnings, or errors, Gd forbid. 
+To compile the program, make sure you have a c compiler, libncurses and libncurses-dev installed.  
+sudo apt install libncurses5 libncurses5-dev # on Debian distros  
+sudo yum install ncurses ncurses-devel       # on RHEL distros  
+  
+
+Then just type **make**. It should compile without warnings, or errors, Gd forbid. 
 
 Game Keys
 =========
