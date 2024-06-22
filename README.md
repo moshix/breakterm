@@ -12,10 +12,10 @@ To compile the program, make sure you have a c compiler, libncurses and libncurs
 Game Keys
 =========
 
-P for Pause
-B for Boss screen
+P for Pause  
+B for Boss screen  
 Q for Quit (or Control-C)  
-
+  
 Have fun!
 
 Moshix  
