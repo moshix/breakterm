@@ -22,3 +22,4 @@ clean:
 
 clear:
 	rm $(EXEC)
+.PHONY: all clean
