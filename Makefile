@@ -3,6 +3,7 @@ CC ?= gcc
 
 # Compiler flags
 CFLAGS = -O3 -Wall -g
+
 all: breakterm
 breakterm: breakterm.c
 	$(CC) $(CFLAGS) -o breakterm breakterm.c -lncurses
