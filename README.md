@@ -16,7 +16,7 @@ P for Pause
 B for Boss screen  
 Q for Quit (or Control-C)  
   
-Have fun!
+**Have fun!**
 
 Moshix  
 June 21, 2024 - Firenze  
