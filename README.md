@@ -24,8 +24,11 @@ Q for Quit
 Left cursor for left  
 Right cursor for right  
 
-You can also invoke the program and pass it how many starting lives you want (with -l 5 for 5 lives), and with -a 20% (for ball acceleration percent at each new game level).  
-
+You can also invoke the program and pass it how many starting lives you want (with -l 5 for 5 lives), and with -a 20% (for ball acceleration percent at each new game level), like this:
+<pre>
+./breakterm -l 5 -a 20
+</pre>
+  
 You start by default with 4 lives and at level 1. Each time you finish a level, the ball speeds up by 15%! Can you survive the next level?   
   
   
