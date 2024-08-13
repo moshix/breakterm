@@ -436,7 +436,7 @@ void print_welcome_message() {
     mvprintw(WINDOW_HEIGHT / 2 + 1, (WINDOW_WIDTH / 2) - 5, "by moshix");
     attroff(COLOR_PAIR(10));
     mvprintw(WINDOW_HEIGHT - 5, 2, "Press P to Pause, B for Boss Screen, Q to Quit");
-    mvprintw(WINDOW_HEIGHT-4, 2, "You start with 4 lives and at level 1. Each time \n  you finish a level, the ball speeds up by 15%! \n\n  Can you survive the next level?");
+    mvprintw(WINDOW_HEIGHT-4, 2, "You start with 4 lives and at level 1. Each time \n  you finish a level, the ball speeds up by 15pct! \n\n  Can you survive the next level?");
     refresh();
 }
 
