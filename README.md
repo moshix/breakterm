@@ -35,7 +35,7 @@ You start by default with 4 lives and at level 1. Each time you finish a level, 
 **Have fun!**
 
 Moshix  
-June 22, 2024 - Firenze  
+March 2025 - Barolo  
 
 ![Actual game screenshot ](https://github.com/moshix/breakterm/blob/main/screenshot2.png)
 
