@@ -44,9 +44,9 @@
 #define WINDOW_HEIGHT 20
 #define BRICK_WIDTH 4
 #define NUM_BRICKS ((WINDOW_WIDTH / (BRICK_WIDTH + 2) - 2))
-#define PACING 110000 // how many milliseconds to wait between updates - configure here!
-#define PADDLE_VELOCITY 6 // how many chars the paddle moves per input
-#define BALL_TIMER 3 // how fast the ball should be moving. Heavily connectiona and hw dependent
+#define PACING 1000 // how many milliseconds to wait between updates - configure here!
+#define PADDLE_VELOCITY 4 // how many chars the paddle moves per input
+#define BALL_TIMER 3 // how fast the ball should be moving. Heavily connections and hw dependent
 
 
 /* externals here */
